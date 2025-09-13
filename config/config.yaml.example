@@ -1,0 +1,117 @@
+# Horse Racing Odds Tracking Configuration
+# Copy to config.yaml and update with your settings
+
+# System Settings
+system:
+  environment: development  # development, production
+  log_level: INFO          # DEBUG, INFO, WARNING, ERROR
+  database_path: data/horses.db
+  
+# Track Configuration
+tracks:
+  - name: "Test Track"
+    code: "TEST"
+    url: "https://www.example-racing.com/test"
+    enabled: true
+    scrape_win: true
+    scrape_exacta: true
+    
+  - name: "Belmont Park"
+    code: "BEL"
+    url: "https://www.example-racing.com/belmont"
+    enabled: false
+    scrape_win: true
+    scrape_exacta: true
+    
+  - name: "Santa Anita Park"
+    code: "SA"
+    url: "https://www.example-racing.com/santa-anita"
+    enabled: false
+    scrape_win: true
+    scrape_exacta: false
+
+# Bet Types to Monitor
+bet_types:
+  win:
+    enabled: true
+    min_pool_size: 1000  # Minimum pool size to track
+  exacta:
+    enabled: true
+    min_pool_size: 500
+    store_full_matrix: false  # If false, only store min/max payouts
+
+# Scraping Configuration
+scraping:
+  # Default intervals (seconds)
+  default_interval: 300  # 5 minutes
+  near_post_interval: 60  # 1 minute when < 10 min to post
+  near_post_threshold: 600  # seconds before post to increase frequency
+  
+  # Rate limiting
+  min_request_delay: 2.0  # Minimum seconds between requests to same site
+  max_retries: 3
+  retry_delay: 5
+  
+  # Request settings
+  timeout: 10
+  user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+
+# Alert Thresholds
+alerts:
+  enabled: true
+  
+  # Win pool alerts
+  win_odds:
+    min_odds: 0.5          # Alert if odds drop below
+    max_odds: 15.0         # Alert if odds rise above
+    min_change_percent: 25  # Alert on % change
+    
+  # Exacta alerts  
+  exacta:
+    min_payout: 10.0       # Alert if payout below
+    max_payout: 100.0      # Alert if payout above
+    track_combinations:    # Specific combos to monitor
+      - "1-2"
+      - "2-1"
+    
+  # Cross-pool discrepancy
+  discrepancy:
+    enabled: false
+    threshold_percent: 30   # Alert if win vs exacta implied odds differ by %
+    
+  # Alert suppression
+  suppression:
+    duplicate_window: 300   # Don't repeat same alert within seconds
+    max_alerts_per_race: 10
+
+# Email Notification Settings
+email:
+  enabled: false  # Set to true and configure below to enable email
+  smtp_server: smtp.gmail.com
+  smtp_port: 587
+  use_tls: true
+  sender: ${EMAIL_SENDER}  # Use environment variable
+  recipient: ${EMAIL_RECIPIENT}
+  # Credentials from environment
+  smtp_username: ${SMTP_USERNAME}
+  smtp_password: ${SMTP_PASSWORD}
+  
+  # Email format
+  subject_prefix: "[Odds Alert]"
+  include_chart: false
+  max_retries: 3
+
+# Dashboard Settings (optional - not implemented yet)
+dashboard:
+  enabled: false
+  host: "127.0.0.1"
+  port: 8080
+  auto_refresh: 30  # seconds
+  show_historical: true
+  chart_lookback: 3600  # seconds
+
+# Data Retention
+retention:
+  odds_snapshots_days: 30
+  alerts_days: 90
+  cleanup_hour: 3  # Hour to run cleanup (24-hour format)

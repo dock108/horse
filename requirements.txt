@@ -1,0 +1,15 @@
+# Core dependencies
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+PyYAML>=6.0
+python-dotenv>=1.0.0
+
+# Database
+# SQLite3 is built-in
+
+# Email
+# smtplib is built-in
+
+# Utilities
+python-dateutil>=2.8.0
