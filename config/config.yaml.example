@@ -18,7 +18,16 @@ tracks:
     
   - name: "Belmont Park"
     code: "BEL"
-    url: "https://www.example-racing.com/belmont"
+    url: "https://www.nyra.com/belmont"
+    scraper: "belmont.BelmontScraper"
+    enabled: false
+    scrape_win: true
+    scrape_exacta: true
+    
+  - name: "Churchill Downs"
+    code: "CD"
+    url: "https://www.churchilldowns.com/racing/"
+    scraper: "churchill_downs.ChurchillDownsScraper"
     enabled: false
     scrape_win: true
     scrape_exacta: true

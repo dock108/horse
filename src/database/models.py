@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime, date, time
-from typing import Optional, List
+from typing import Optional
+
 
 @dataclass
 class Track:
@@ -10,6 +11,7 @@ class Track:
     url: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
+
 
 @dataclass
 class Race:
@@ -22,11 +24,13 @@ class Race:
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
+
 @dataclass
 class Horse:
     horse_id: Optional[int] = None
     name: str = ""
     created_at: Optional[datetime] = None
+
 
 @dataclass
 class Entry:
@@ -40,6 +44,7 @@ class Entry:
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
+
 @dataclass
 class OddsSnapshot:
     snapshot_id: Optional[int] = None
@@ -52,6 +57,7 @@ class OddsSnapshot:
     total_win_pool: Optional[int] = None
     created_at: Optional[datetime] = None
 
+
 @dataclass
 class ExactaProbable:
     exacta_id: Optional[int] = None
@@ -62,6 +68,7 @@ class ExactaProbable:
     payout: float = 0.0
     total_exacta_pool: Optional[int] = None
     created_at: Optional[datetime] = None
+
 
 @dataclass
 class Alert:

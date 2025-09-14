@@ -93,6 +93,40 @@ This plan outlines a horse racing odds tracking and alert system for a solo deve
 | Medium | Alert evaluation functions (threshold checks) | Med | Week 2 | Planned |
 | Medium | Snapshot index optimization | Low | Week 2 | Planned |
 
+#### Data Sources & Scraper Strategy (Phase 2)
+- Selected sources based on existing `BaseScraper` framework (`src/scraper/base.py`) and test track pattern:
+  - Belmont Park (NYRA): `https://www.nyra.com/belmont`
+  - Churchill Downs: `https://www.churchilldowns.com/racing/`
+- Approach:
+  - JSON-first: detect embedded JSON (e.g., `script[type="application/json"]`) or XHR endpoints discovered via network inspection.
+  - HTML fallback: parse DOM with BeautifulSoup when JSON is unavailable.
+  - Respect rate limiting via `BaseScraper._rate_limit` and retry logic.
+- Track-specific scrapers to add in `src/scraper/tracks/`:
+  - `BelmontScraper(BaseScraper)` (module: `tracks/belmont.py`)
+  - `ChurchillDownsScraper(BaseScraper)` (module: `tracks/churchill_downs.py`)
+- Example config mappings (proposed keys):
+```yaml
+tracks:
+  - name: "Belmont Park"
+    code: "BEL"
+    url: "https://www.nyra.com/belmont"
+    scraper: "belmont.BelmontScraper"
+    enabled: true
+    scrape_win: true
+    scrape_exacta: true
+
+  - name: "Churchill Downs"
+    code: "CD"
+    url: "https://www.churchilldowns.com/racing/"
+    scraper: "churchill_downs.ChurchillDownsScraper"
+    enabled: true
+    scrape_win: true
+    scrape_exacta: true
+```
+- Notes:
+  - Exact JSON endpoints will be confirmed during implementation by inspecting network calls; the above URLs are stable entry points.
+  - Exacta matrices can be large; prefer min/max summaries unless `store_full_matrix` is enabled.
+
 ### 📋 Phase 3: Notifications, Dashboard & Hardening - [Planned]
 
 #### Target Goals
